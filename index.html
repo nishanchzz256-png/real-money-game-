@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nishan Gaming</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 25px 10px;
+    background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+    border-radius: 18px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    margin-bottom: 0;
+    color: #e0e7ff;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    margin-top: 18px;
+    border-radius: 15px;
+    border: 1px solid #334155;
+}
+
+h2 {
+    margin-top: 0;
+    color: #38bdf8;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #0ea5e9;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background: #475569;
+    cursor: not-allowed;
+}
+
+.score {
+    font-size: 48px;
+    font-weight: bold;
+    color: #4ade80;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.info {
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #334155;
+}
+
+.notice {
+    background: #422006;
+    color: #fde68a;
+    padding: 15px;
+    margin-top: 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 5px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    font-size: 16px;
+}
+
+#tapButton {
+    background: #16a34a;
+    font-size: 20px;
+    padding: 18px;
+}
+
+#message {
+    color: #4ade80;
+    text-align: center;
+    line-height: 1.6;
+}
+
+ul {
+    padding-left: 20px;
+    line-height: 1.8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎮 Nishan Gaming</h1>
+    <p>Play Games • Earn Demo Points • Have Fun!</p>
+</header>
+
+<section class="card">
+    <h2>👋 Welcome, Gamer!</h2>
+    <p class="info">
+        Welcome to Nishan Gaming! Play the free tap game,
+        increase your score, and explore the demo rewards system.
+    </p>
+</section>
+
+<section class="card">
+    <h2>🎯 Tap Challenge</h2>
+    <p class="info">
+        Tap the button as many times as you can in 15 seconds.
+        Each successful tap gives you one demo point.
+    </p>
+
+    <div class="score" id="score">0</div>
+    <p style="text-align:center;">Demo Points</p>
+
+    <button id="startButton" onclick="startGame()">
+        ▶ Start Game
+    </button>
+
+    <button id="tapButton" onclick="tapGame()" disabled>
+        👆 TAP HERE!
+    </button>
+
+    <p id="timer" style="text-align:center;">
+        Time Left: 15 seconds
+    </p>
+
+    <p id="message"></p>
+</section>
+
+<section class="card">
+    <h2>🏆 Your Statistics</h2>
+
+    <div class="stat">
+        <span>Total Demo Points</span>
+        <strong id="totalPoints">0</strong>
+    </div>
+
+    <div class="stat">
+        <span>Best Score</span>
+        <strong id="bestScore">0</strong>
+    </div>
+
+    <div class="stat">
+        <span>Games Played</span>
+        <strong id="gamesPlayed">0</strong>
+    </div>
+</section>
+
+<section class="card">
+    <h2>🥇 Leaderboard Demo</h2>
+
+    <p class="info">
+        This is a local demo leaderboard. It shows your best
+        score on this device, not a live ranking of all players.
+    </p>
+
+    <div class="stat">
+        <span>1. You</span>
+        <strong id="leaderScore">0</strong>
+    </div>
+
+    <p class="info">
+        Online multiplayer and a shared leaderboard can be
+        added later using a secure server and database.
+    </p>
+</section>
+
+<section class="card">
+    <h2>👥 Refer & Share</h2>
+
+    <p class="info">
+        Invite your friends to visit Nishan Gaming.
+        The share button lets you share your website link.
+        Referral tracking and referral rewards are not active yet.
+    </p>
+
+    <input
+        type="text"
+        id="referralLink"
+        readonly
+        aria-label="Your website referral link"
+    >
+
+    <button onclick="shareWebsite()">
+        📤 Share Website
+    </button>
+
+    <p id="shareMessage" class="info"></p>
+</section>
+
+<section class="card">
+    <h2>🎁 Demo Rewards Wallet</h2>
+
+    <div class="stat">
+        <span>Demo Reward Points</span>
+        <strong id="walletPoints">0</strong>
+    </div>
+
+    <p class="info">
+        These points are for demonstration only.
+        They have no cash value and cannot be withdrawn,
+        transferred, or exchanged for money.
+    </p>
+
+    <button disabled>
+        Bank Withdrawal — Not Available
+    </button>
+</section>
+
+<section class="card">
+    <h2>🚀 Future Features</h2>
+
+    <ul class="info">
+        <li>Player registration and login</li>
+        <li>Online multiplayer games</li>
+        <li>Secure online leaderboard</li>
+        <li>Referral tracking</li>
+        <li>Advertising and sponsorship opportunities</li>
+    </ul>
+
+    <p class="info">
+        These features require additional development.
+        They are not activated by this HTML file.
+    </p>
+</section>
+
+<div class="notice">
+    <strong>Important Notice</strong><br>
+    Nishan Gaming is currently a free gaming demo.
+    No real money is earned or paid through this website.
+    There is no real-money wallet, bank transfer, or
+    withdrawal system. Do not enter bank details, UPI PINs,
+    passwords, or OTPs here. Any future reward or payment
+    system must be reviewed for applicable laws, security,
+    privacy, and payment-provider requirements.
+</div>
+
+<footer>
+    Nishan Gaming © 2026<br>
+    Free Gaming Demo
+</footer>
+
+<script>
+let score = 0;
+let timeLeft = 15;
+let gameRunning = false;
+let timerInterval = null;
+
+let totalPoints = Number(
+    localStorage.getItem("nishanTotalPoints") || 0
+);
+
+let bestScore = Number(
+    localStorage.getItem("nishanBestScore") || 0
+);
+
+let gamesPlayed = Number(
+    localStorage.getItem("nishanGamesPlayed") || 0
+);
+
+function updateDisplay() {
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("totalPoints").textContent =
+        totalPoints;
+
+    document.getElementById("bestScore").textContent =
+        bestScore;
+
+    document.getElementById("gamesPlayed").textContent =
+        gamesPlayed;
+
+    document.getElementById("leaderScore").textContent =
+        bestScore;
+
+    document.getElementById("walletPoints").textContent =
+        totalPoints;
+}
+
+function startGame() {
+    if (gameRunning) {
+        return;
+    }
+
+    score = 0;
+    timeLeft = 15;
+    gameRunning = true;
+
+    document.getElementById("message").textContent = "";
+
+    document.getElementById("startButton").disabled = true;
+    document.getElementById("tapButton").disabled = false;
+
+    document.getElementById("timer").textContent =
+        "Time Left: " + timeLeft + " seconds";
+
+    updateDisplay();
+
+    timerInterval = setInterval(function() {
+        timeLeft--;
+
+        document.getElementById("timer").textContent =
+            "Time Left: " + timeLeft + " seconds";
+
+        if (timeLeft <= 0) {
+            endGame();
+        }
+    }, 1000);
+}
+
+function tapGame() {
+    if (!gameRunning) {
+        return;
+    }
+
+    score++;
+    updateDisplay();
+}
+
+function endGame() {
+    clearInterval(timerInterval);
+
+    gameRunning = false;
+
+    document.getElementById("tapButton").disabled = true;
+    document.getElementById("startButton").disabled = false;
+
+    totalPoints += score;
+    gamesPlayed++;
+
+    if (score > bestScore) {
+        bestScore = score;
+    }
+
+    localStorage.setItem("nishanTotalPoints", totalPoints);
+    localStorage.setItem("nishanBestScore", bestScore);
+    localStorage.setItem("nishanGamesPlayed", gamesPlayed);
+
+    document.getElementById("timer").textContent =
+        "Game Over!";
+
+    document.getElementById("message").textContent =
+        "Great job! You scored " + score +
+        " demo points. Play again to beat your best score!";
+
+    updateDisplay();
+}
+
+function shareWebsite() {
+    const link = document.getElementById("referralLink").value;
+
+    if (!link) {
+        document.getElementById("shareMessage").textContent =
+            "Publish your website first to get a shareable link.";
+        return;
+    }
+
+    if (navigator.share) {
+        navigator.share({
+            title: "Nishan Gaming",
+            text: "Play the free Nishan Gaming demo!",
+            url: link
+        }).catch(function() {});
+    } else if (navigator.clipboard &&
+               window.isSecureContext) {
+        navigator.clipboard.writeText(link)
+            .then(function() {
+                document.getElementById("shareMessage")
+                    .textContent = "Website link copied!";
+            })
+            .catch(function() {
+                document.getElementById("shareMessage")
+                    .textContent = "Copy the website link manually.";
+            });
+    } else {
+        document.getElementById("shareMessage").textContent =
+            "Copy the website link from the box above.";
+    }
+}
+
+document.getElementById("referralLink").value =
+    window.location.href;
+
+updateDisplay();
+</script>
+
+</body>
+</html>
